@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import Pagination from "./components/Pagination.vue";
-import Container from "./components/container/Container.vue";
+import Pagination from "../../components/Pagination.vue";
+import Container from "../../components/container/Container.vue";
 
 const backgrounds = [
   "https://static.kivo.wiki/images/gallery/30/Tablet_AOS_01.jpg",
@@ -32,8 +32,8 @@ setInterval(async () => {
   <button class="login-button" @click="">
     登录
   </button>
-  <Container />
-  <Pagination />
+  <Container/>
+  <Pagination/>
 </template>
 
 <style scoped>
@@ -45,6 +45,7 @@ header {
   font-size: 1.5em;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 footer {
   text-align: center;
   padding: 10px 0;
@@ -52,6 +53,7 @@ footer {
   color: white;
   margin-top: auto;
 }
+
 .login-button {
   position: absolute;
   background-color: #07f5ed;

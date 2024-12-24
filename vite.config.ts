@@ -4,8 +4,15 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  build: {
+    rollupOptions:{
+      input: {
+        main: './index.html',
+        login: './login.html',
+      },
+    },
+  },
   define: {
-    __APP_ENV__: JSON.stringify(process.env.NODE_ENV),
-  }
+  },
 })
 
