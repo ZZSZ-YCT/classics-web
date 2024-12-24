@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import axios from "axios";
 import Pagination from "./components/Pagination.vue";
 import Container from "./components/container/Container.vue";
 
@@ -19,21 +18,20 @@ const backgrounds = [
 ]
 
 setInterval(async () => {
-  const response = await axios.get(backgrounds[Math.floor(Math.random() * backgrounds.length)], {
-    responseType: "blob"
-  });
+  const imageUrl = backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
-  const imageUrl = URL.createObjectURL(response.data);
-
-  document.getElementById('body').style.backgroundImage = `url(${imageUrl})`;
+  document.getElementById('body')!!.style.backgroundImage = `url(${imageUrl})`
 }, 5000)
 
 </script>
 
 <template>
   <header>
-    郑州四中英才二班典籍
+    <img src="https://static.shittim.art/images/blue-classics.png" alt="英才二班典籍" id="logo">
   </header>
+  <button class="login-button" @click="">
+    登录
+  </button>
   <Container />
   <Pagination />
 </template>
@@ -53,5 +51,30 @@ footer {
   background: transparent;
   color: white;
   margin-top: auto;
+}
+.login-button {
+  position: absolute;
+  background-color: #07f5ed;
+  border: none;
+  color: white;
+  top: 12px;
+  right: 24px;
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #45a049;
+}
+
+#logo {
+  height: 10vh;
+  width: auto;
 }
 </style>
