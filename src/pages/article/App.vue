@@ -23,13 +23,17 @@ setInterval(async () => {
   document.getElementById('body')!!.style.backgroundImage = `url(${imageUrl})`
 }, 5000)
 
+function login() {
+  window.location.href = '/login'
+}
+
 </script>
 
 <template>
   <header>
     <img src="https://static.shittim.art/images/blue-classics.png" alt="英才二班典籍" id="logo">
   </header>
-  <button class="login-button" @click="">
+  <button class="login-button" @click="login" type="button">
     登录
   </button>
   <Container/>

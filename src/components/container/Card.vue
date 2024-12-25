@@ -38,7 +38,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div :class="{ 'sensitive' : sensitive, 'entry': true, 'revealed': revealed }">
+  <div :class="{ 'sensitive' : sensitive, 'entry': true, 'revealed': revealed, 'hidden': hidden }">
     <div :class="{ 'sensitive-box': sensitive, 'revealed': revealed }">
       <div class="entry-header">
         <div style="display: flex; align-items: center;">
@@ -71,12 +71,18 @@ export default defineComponent({
   padding: 15px;
   background-color: #e7f3ff;
   border-radius: 12px;
+  border-style: solid;
+  border-width: 2px;
   word-wrap: break-word;
   overflow: hidden;
   position: relative;
   margin-bottom: 10px;
   transition: all 0.3s ease;
   min-height: 80px;
+}
+.entry.hidden {
+  border-style: dashed;
+  border-width: 2px;
 }
 .entry:hover {
   transform: scale(1.05);
