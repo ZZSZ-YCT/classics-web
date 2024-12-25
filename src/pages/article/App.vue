@@ -2,25 +2,81 @@
 
 import Pagination from "../../components/Pagination.vue";
 import Container from "../../components/container/Container.vue";
+import axios from "axios";
 
 const backgrounds = [
-  "https://static.kivo.wiki/images/gallery/30/Tablet_AOS_01.jpg",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%290187.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%290587.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291057.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291287.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291525.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291525.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291701.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291920.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%292098.png",
-  "https://static.kivo.wiki/images/gallery/2.PV%E6%88%AA%E5%9B%BE-PV5%EF%BC%88%E6%B8%AF%E6%BE%B3%E5%8F%B0%E6%9C%8D%EF%BC%89-4K/%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%20%5B%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%5D%205th%20PV%20%287crM-RyP0jY%291936.png"
-]
+  "https://static.shittim.art/images/4anniversary-pv/10.webp",
+  "https://static.shittim.art/images/4anniversary-pv/11.webp",
+  "https://static.shittim.art/images/4anniversary-pv/12.webp",
+  "https://static.shittim.art/images/4anniversary-pv/13.webp",
+  "https://static.shittim.art/images/4anniversary-pv/14.webp",
+  "https://static.shittim.art/images/4anniversary-pv/15.webp",
+  "https://static.shittim.art/images/4anniversary-pv/16.webp",
+  "https://static.shittim.art/images/4anniversary-pv/17.webp",
+  "https://static.shittim.art/images/4anniversary-pv/18.webp",
+  "https://static.shittim.art/images/4anniversary-pv/19.webp",
+  "https://static.shittim.art/images/4anniversary-pv/2.webp",
+  "https://static.shittim.art/images/4anniversary-pv/20.webp",
+  "https://static.shittim.art/images/4anniversary-pv/21.webp",
+  "https://static.shittim.art/images/4anniversary-pv/22.webp",
+  "https://static.shittim.art/images/4anniversary-pv/23.webp",
+  "https://static.shittim.art/images/4anniversary-pv/24.webp",
+  "https://static.shittim.art/images/4anniversary-pv/25.webp",
+  "https://static.shittim.art/images/4anniversary-pv/26.webp",
+  "https://static.shittim.art/images/4anniversary-pv/27.webp",
+  "https://static.shittim.art/images/4anniversary-pv/28.webp",
+  "https://static.shittim.art/images/4anniversary-pv/29.webp",
+  "https://static.shittim.art/images/4anniversary-pv/3.webp",
+  "https://static.shittim.art/images/4anniversary-pv/30.webp",
+  "https://static.shittim.art/images/4anniversary-pv/31.webp",
+  "https://static.shittim.art/images/4anniversary-pv/32.webp",
+  "https://static.shittim.art/images/4anniversary-pv/34.webp",
+  "https://static.shittim.art/images/4anniversary-pv/35.webp",
+  "https://static.shittim.art/images/4anniversary-pv/36.webp",
+  "https://static.shittim.art/images/4anniversary-pv/37.webp",
+  "https://static.shittim.art/images/4anniversary-pv/38.webp",
+  "https://static.shittim.art/images/4anniversary-pv/39.webp",
+  "https://static.shittim.art/images/4anniversary-pv/4.webp",
+  "https://static.shittim.art/images/4anniversary-pv/40.webp",
+  "https://static.shittim.art/images/4anniversary-pv/41.webp",
+  "https://static.shittim.art/images/4anniversary-pv/42.webp",
+  "https://static.shittim.art/images/4anniversary-pv/43.webp",
+  "https://static.shittim.art/images/4anniversary-pv/44.webp",
+  "https://static.shittim.art/images/4anniversary-pv/45.webp",
+  "https://static.shittim.art/images/4anniversary-pv/46.webp",
+  "https://static.shittim.art/images/4anniversary-pv/47.webp",
+  "https://static.shittim.art/images/4anniversary-pv/49.webp",
+  "https://static.shittim.art/images/4anniversary-pv/5.webp",
+  "https://static.shittim.art/images/4anniversary-pv/50.webp",
+  "https://static.shittim.art/images/4anniversary-pv/51.webp",
+  "https://static.shittim.art/images/4anniversary-pv/53.webp",
+  "https://static.shittim.art/images/4anniversary-pv/54.webp",
+  "https://static.shittim.art/images/4anniversary-pv/55.webp",
+  "https://static.shittim.art/images/4anniversary-pv/56.webp",
+  "https://static.shittim.art/images/4anniversary-pv/57.webp",
+  "https://static.shittim.art/images/4anniversary-pv/58.webp",
+  "https://static.shittim.art/images/4anniversary-pv/59.webp",
+  "https://static.shittim.art/images/4anniversary-pv/6.webp",
+  "https://static.shittim.art/images/4anniversary-pv/60.webp",
+  "https://static.shittim.art/images/4anniversary-pv/61.webp",
+  "https://static.shittim.art/images/4anniversary-pv/62.webp",
+  "https://static.shittim.art/images/4anniversary-pv/63.webp",
+  "https://static.shittim.art/images/4anniversary-pv/64.webp",
+  "https://static.shittim.art/images/4anniversary-pv/65.webp",
+  "https://static.shittim.art/images/4anniversary-pv/66.webp",
+  "https://static.shittim.art/images/4anniversary-pv/7.webp",
+  "https://static.shittim.art/images/4anniversary-pv/8.webp",
+  "https://static.shittim.art/images/4anniversary-pv/9.webp"]
 
 setInterval(async () => {
   const imageUrl = backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
-  document.getElementById('body')!!.style.backgroundImage = `url(${imageUrl})`
+  const data = await axios.get(imageUrl, {
+    responseType: 'blob'
+  })
+
+  const objectUrl = URL.createObjectURL(data.data)
+  document.getElementById('body')!!.style.backgroundImage = `url(${objectUrl})`
 }, 5000)
 
 function login() {
