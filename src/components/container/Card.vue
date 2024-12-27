@@ -1,12 +1,21 @@
 <script lang="ts">
-import {defineComponent, ref} from 'vue'
+import {defineComponent, ref, watchEffect} from 'vue'
+import * as md_renderer from './renderer'
 
 export default defineComponent({
   name: "Card",
-  setup: function () {
+  setup(props) {
     const revealed = ref<boolean>(false)
+    const rendered = ref<string>('')
 
-    return {revealed}
+    watchEffect(() => {
+      rendered.value = md_renderer.md_render(props.content)
+    })
+
+    return {
+      revealed,
+      rendered
+    }
   },
   props: {
     content: {
@@ -47,9 +56,7 @@ export default defineComponent({
         </div>
         <span class="entry-unsure" v-if="unsure">本条目真实性有待考究</span>
       </div>
-      <div>
-        {{ content }}
-      </div>
+      <div v-html="rendered"></div>
     </div>
     <div class="sensitive-warning" v-if="sensitive">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
@@ -72,6 +79,7 @@ export default defineComponent({
   background-color: #e7f3ff;
   border-radius: 12px;
   border-style: solid;
+  border-color: #07f5ed;
   border-width: 2px;
   word-wrap: break-word;
   overflow: hidden;

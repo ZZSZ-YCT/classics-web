@@ -80,7 +80,7 @@ setInterval(async () => {
 }, 5000)
 
 function login() {
-  window.location.href = '/login'
+  window.location.href = 'login'
 }
 
 </script>
@@ -88,10 +88,10 @@ function login() {
 <template>
   <header>
     <img src="https://static.shittim.art/images/blue-classics.png" alt="英才二班典籍" id="logo">
+    <div @click="login" class="login-button" aria-label="Login">
+      Sign in
+    </div>
   </header>
-  <button class="login-button" @click="login" type="button">
-    登录
-  </button>
   <Container/>
   <Pagination/>
 </template>
@@ -103,7 +103,10 @@ header {
   text-align: center;
   padding: 1em 0;
   font-size: 1.5em;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 footer {
@@ -116,27 +119,42 @@ footer {
 
 .login-button {
   position: absolute;
-  background-color: #07f5ed;
-  border: none;
-  color: white;
-  top: 12px;
-  right: 24px;
-  padding: 12px;
-  text-align: center;
+  color: #07f5ed;
+  right: 8vh;
+  text-align: right;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: color 0.3s, transform 0.2s;
 }
 
 .login-button:hover {
-  background-color: #45a049;
+  color: #41cfc8;
+  transform: scale(1.1);
+}
+
+.login-button:active {
+  transform: scale(0.95);
 }
 
 #logo {
   height: 10vh;
   width: auto;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 2em 0;
+  }
+
+  .login-button {
+    font-size: 14px;
+    margin-top: 1em;
+  }
+
+  #logo {
+    height: 8vh;
+  }
 }
 </style>
