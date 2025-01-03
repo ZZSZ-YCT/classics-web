@@ -3,6 +3,8 @@
 import Pagination from "../../components/Pagination.vue";
 import Container from "../../components/container/Container.vue";
 import axios from "axios";
+import {onMounted, ref} from "vue";
+import {getArticles, type idArticleLine} from "./request.ts";
 
 const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/10.webp",
@@ -79,9 +81,30 @@ setInterval(async () => {
   document.getElementById('body')!!.style.backgroundImage = `url(${objectUrl})`
 }, 5000)
 
+const currentPage = ref(1)
+const onPageChange = (page: number) => {
+  currentPage.value = page
+}
+
 function login() {
   window.location.href = 'login'
 }
+
+const articles = ref<idArticleLine[]>([])
+const loading = ref<boolean>(true)
+
+const fetchArticles = async () => {
+  const data = await getArticles()
+
+  if (data) {
+    articles.value = data
+  }
+  loading.value = false
+}
+
+onMounted(() => {
+  fetchArticles()
+})
 
 </script>
 
@@ -92,8 +115,8 @@ function login() {
       Sign in
     </div>
   </header>
-  <Container/>
-  <Pagination/>
+  <Container :page="currentPage" :articles="articles" :loading="loading"/>
+  <Pagination :change-page="onPageChange" :current-page="currentPage" :article-num="articles.length" />
 </template>
 
 <style scoped>

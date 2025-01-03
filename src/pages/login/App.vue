@@ -2,6 +2,34 @@
 import {defineComponent, ref} from 'vue'
 import axios from "axios";
 import {hitokoto} from "../constants.ts";
+import {loginToServer} from "./authorization.ts";
+import {useCookies} from "@vueuse/integrations/useCookies";
+
+const tarots = [
+  '0.png',
+  '1.png',
+  '10.png',
+  '11.png',
+  '12.png',
+  '13.png',
+  '14.png',
+  '15.png',
+  '16.png',
+  '17.png',
+  '18.png',
+  '19.png',
+  '2.png',
+  '20.png',
+  '21.png',
+  '3.png',
+  '4.png',
+  '5.png',
+  '6.png',
+  '7.png',
+  '8.png',
+  '9.png']
+
+const cookies = useCookies(['classics'])
 
 export default defineComponent({
   name: "App.vue",
@@ -9,22 +37,26 @@ export default defineComponent({
     const username = ref<string>('')
     const password = ref<string>('')
     const error = ref<string>('')
-    const token = ref<string>('')
 
     const handleLogin = async () => {
-      if (!token.value.length) {
-        error.value = "请完成Captcha"
-        return
-      }
       if (username.value.length && password.value.length) {
+        const token = await loginToServer(
+            {
+              username: username.value,
+              password: password.value,
+            }
+        )
 
+        if (token) {
+          cookies.set('access_token', token.accessToken, {expires: new Date(Date.now() + 15 * 60 * 1000)})
+          cookies.set('refresh_token', token.refreshToken, {expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)})
+          window.location.href = document.referrer
+        } else {
+          error.value = "Failed to login, please check your credentials and try again"
+        }
       } else {
-        error.value = "请输入用户名和密码"
+        error.value = "Please input your username and password"
       }
-    }
-
-    const onTurnstile = (g_token: string) => {
-      token.value = g_token
     }
 
     axios.get(hitokoto).then((res) => {
@@ -32,21 +64,31 @@ export default defineComponent({
       document.getElementById('hitokoto-source')!!.innerText = res.data['from']
     })
 
+    setInterval(async () => {
+      const imageUrl = tarots[Math.floor(Math.random() * tarots.length)]
+
+      const data = await axios.get(`https://static.shittim.art/images/shi0n-tarots/${imageUrl}`, {
+        responseType: 'blob',
+      })
+
+      const objectUrl = URL.createObjectURL(data.data)
+      document.getElementById('tarot-image')!!.style.backgroundImage = `url(${objectUrl})`
+      /*document.getElementById('tarot-image')!!.style.backgroundImage =
+          `url(https://static.shittim.art/images/shi0n-tarots/${imageUrl})`*/
+    }, 5000)
+
     return {
       username,
       password,
       error,
-      token,
       handleLogin,
-      onTurnstile,
     }
   },
 })
 </script>
 
 <template>
-  <div class="flex h-screen bg-gray-100">
-    <!-- 左侧登录表单 -->
+  <div class="flex h-screen bg-gray-200">
     <div class="w-full max-w-md mx-auto flex flex-col justify-center">
       <div class="bg-white shadow-lg rounded-lg p-8">
         <h1 class="text-2xl font-bold mb-4">Welcome Back 👋</h1>
@@ -75,6 +117,9 @@ export default defineComponent({
                 placeholder="At least 8 characters"
             />
           </div>
+          <div class="mb-4 mt-4 text-red-500" v-if="error">
+            {{ error }}
+          </div>
           <button
               type="submit"
               class="w-full bg-indigo-600 text-white py-2 px-4 hover:bg-indigo-700 transition rounded-xl"
@@ -85,9 +130,9 @@ export default defineComponent({
       </div>
     </div>
 
-    <div class="hidden lg:flex w-1/2 items-center justify-center bg-gray-200">
-      <div class="w-3/4 h-3/4 bg-gray-400 rounded-md">
-        <!-- 用于显示占位符，稍后可以替换为实际图片 -->
+    <div class="hidden lg:flex w-1/2 items-center justify-center bg-white">
+      <div id="tarot-image">
+
       </div>
     </div>
   </div>
@@ -101,5 +146,14 @@ export default defineComponent({
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+#tarot-image {
+  background-image: url("https://static.shittim.art/images/shi0n-tarots/17.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 75vh;
+  height: 75vh;
 }
 </style>

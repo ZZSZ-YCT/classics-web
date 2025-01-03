@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useCookies} from "@vueuse/integrations/useCookies";
 import {base_api_url} from "../constants.ts";
+import {refresh} from "../login/authorization.ts";
 
 
 const cookies = useCookies(['classics'])
@@ -16,12 +17,25 @@ export type idArticleLine = {
 }
 
 export async function getArticles(): Promise<idArticleLine[] | undefined> {
-    const token = cookies.get('access_token')
+    let accessToken = cookies.get('access_token')
+    let refreshToken = cookies.get('refresh_token')
+
+    if(refreshToken && !accessToken) {
+        const token = await refresh(refreshToken)
+
+        if(token) {
+            accessToken = token.accessToken
+            refreshToken = token.refreshToken
+        }
+
+        cookies.set('access_token', accessToken)
+        cookies.set('refresh_token', refreshToken)
+    }
 
     let headers;
-    if (token) {
+    if (accessToken) {
         headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${accessToken}`
         }
     } else {
         headers = {}

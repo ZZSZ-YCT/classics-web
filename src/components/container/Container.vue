@@ -1,31 +1,37 @@
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue'
+import {computed, defineComponent} from 'vue'
 import Card from "./Card.vue";
-import {getArticles, type idArticleLine} from "../../pages/article/request.ts";
+import {type idArticleLine} from "../../pages/article/request.ts";
 
 export default defineComponent({
   name: "Container",
   components: {Card},
-  setup() {
-    const articles = ref<idArticleLine[]>([])
-    const loading = ref<boolean>(true)
-
-    const fetchArticles = async () => {
-      const data = await getArticles()
-
-      if (data) {
-        articles.value = data
-      }
-      loading.value = false
+  props: {
+    articles: {
+      type: Array as () => idArticleLine[],
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+    page: {
+      type: Number,
+      required: true,
     }
+  },
+  setup(props) {
+    //const articles = ref<idArticleLine[]>([])
+    //const loading = ref<boolean>(true)
 
-    onMounted(() => {
-      fetchArticles()
+    const paginatedArticles = computed(() => {
+      const startPage = (props.page - 1) * 10
+      const endPage = startPage + 10
+      return props.articles.slice(startPage, endPage)
     })
 
     return {
-      articles,
-      loading,
+      paginatedArticles,
     }
   },
 })
@@ -36,7 +42,8 @@ export default defineComponent({
     <div v-if="loading">Fetching Articles...</div>
     <div v-else>
       <Card
-          v-for="article in articles"
+          v-for="article in paginatedArticles"
+          :key="article.id"
           :content="article.line"
           :contrib="article.contrib"
           :time="article.time"
