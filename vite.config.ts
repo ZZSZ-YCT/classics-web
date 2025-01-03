@@ -10,6 +10,7 @@ const obfuscatorConfig = {
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
       vue(),
       vitePluginBundleObfuscator(obfuscatorConfig)
