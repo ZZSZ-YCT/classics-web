@@ -107,7 +107,7 @@ onMounted(() => {
 
 <template>
   <header>
-    <img src="https://static.shittim.art/images/blue-classics.webp" alt="英才二班典籍" id="logo">
+    英才二班典籍
     <router-link to="login" class="login-button">Sign in</router-link>
   </header>
   <Container :page="currentPage" :articles="articles" :loading="loading"/>
@@ -116,8 +116,8 @@ onMounted(() => {
 
 <style scoped>
 header {
-  background: transparent;
-  color: white;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.3);
   text-align: center;
   padding: 1em 0;
   font-size: 1.5em;
@@ -156,11 +156,6 @@ footer {
   transform: scale(0.95);
 }
 
-#logo {
-  height: 10vh;
-  width: auto;
-}
-
 @media (max-width: 768px) {
   header {
     padding: 2em 0;
@@ -169,10 +164,6 @@ footer {
   .login-button {
     font-size: 14px;
     margin-top: 1em;
-  }
-
-  #logo {
-    height: 8vh;
   }
 }
 </style>
