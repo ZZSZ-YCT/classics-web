@@ -4,7 +4,7 @@ import {createRouter, createWebHistory} from "vue-router";
 
 const routes = [
     {
-        path: '/',
+        path: '/:catchAll(.*)',
         name: 'Home',
         component: Article,
         meta: {
@@ -20,10 +20,6 @@ const routes = [
                 }
             }
         ]
-    },
-    {
-        path: '/:catchAll(.*)',
-        redirect: '/'
     },
 ]
 
