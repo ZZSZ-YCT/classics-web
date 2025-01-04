@@ -9,16 +9,22 @@ const routes = [
         component: Article,
         meta: {
             title: 'ZZSZ 英才二班典籍'
-        }
+        },
+        children: [
+            {
+                path: 'login',
+                name: 'Login',
+                component: Login,
+                meta: {
+                    title: 'Sign in'
+                }
+            }
+        ]
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-        meta: {
-            title: 'Sign in'
-        }
-    }
+        path: '/:catchAll(.*)',
+        redirect: '/'
+    },
 ]
 
 const router = createRouter({
