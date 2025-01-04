@@ -107,7 +107,7 @@ onMounted(() => {
 
 <template>
   <header>
-    <img src="https://static.shittim.art/images/blue-classics.png" alt="英才二班典籍" id="logo">
+    <img src="https://static.shittim.art/images/blue-classics.webp" alt="英才二班典籍" id="logo">
     <router-link to="login" class="login-button">Sign in</router-link>
   </header>
   <Container :page="currentPage" :articles="articles" :loading="loading"/>

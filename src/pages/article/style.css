@@ -7,7 +7,7 @@ body {
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url("https://static.shittim.art/images/tablet-aos-01.jpg");
+    background-image: url("https://static.shittim.art/images/tablet-aos-01.webp");
     min-height: 100vh;
     display: flex;
     flex-direction: column;
