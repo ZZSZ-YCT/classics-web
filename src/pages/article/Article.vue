@@ -95,6 +95,7 @@ const fetchArticles = async () => {
   if (data) {
     articles.value = data
   }
+
   loading.value = false
 }
 
