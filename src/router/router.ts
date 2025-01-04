@@ -16,7 +16,7 @@ const routes = [
         name: 'Login',
         component: Login,
         meta: {
-            title: 'Sign in'
+            title: 'Sign in',
         }
     }
 ]
