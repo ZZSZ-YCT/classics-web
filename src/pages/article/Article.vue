@@ -86,10 +86,6 @@ const onPageChange = (page: number) => {
   currentPage.value = page
 }
 
-function login() {
-  window.location.href = 'login'
-}
-
 const articles = ref<idArticleLine[]>([])
 const loading = ref<boolean>(true)
 
@@ -111,9 +107,7 @@ onMounted(() => {
 <template>
   <header>
     <img src="https://static.shittim.art/images/blue-classics.png" alt="英才二班典籍" id="logo">
-    <div @click="login" class="login-button" aria-label="Login">
-      Sign in
-    </div>
+    <router-link to="login" class="login-button">Sign in</router-link>
   </header>
   <Container :page="currentPage" :articles="articles" :loading="loading"/>
   <Pagination :change-page="onPageChange" :current-page="currentPage" :article-num="articles.length" />

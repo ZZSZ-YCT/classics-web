@@ -16,12 +16,6 @@ export default defineConfig({
       vitePluginBundleObfuscator(obfuscatorConfig)
   ],
   build: {
-    rollupOptions:{
-      input: {
-        main: './index.html',
-        login: './login.html',
-      },
-    },
   },
   define: {
   },
