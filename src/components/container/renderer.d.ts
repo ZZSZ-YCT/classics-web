@@ -1,1 +1,0 @@
-export declare function md_render(text: string): string
