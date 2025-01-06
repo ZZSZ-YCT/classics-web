@@ -50,7 +50,7 @@ export default defineComponent({
         if (token) {
           cookies.set('access_token', token.accessToken, {expires: new Date(Date.now() + 15 * 60 * 1000)})
           cookies.set('refresh_token', token.refreshToken, {expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)})
-          window.location.href = document.referrer
+          window.location.href = '/'
         } else {
           error.value = "Failed to login, please check your credentials and try again"
         }

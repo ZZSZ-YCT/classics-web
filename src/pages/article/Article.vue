@@ -5,6 +5,11 @@ import Container from "../../components/container/Container.vue";
 import axios from "axios";
 import {onMounted, ref} from "vue";
 import {getArticles, type idArticleLine} from "./request.ts";
+import {jwtDecode} from "jwt-decode";
+import {useCookies} from "@vueuse/integrations/useCookies";
+import {type jwtPayload} from "../login/authorization.ts";
+
+const cookies = useCookies(['classics'])
 
 const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/10.webp",
@@ -88,6 +93,7 @@ const onPageChange = (page: number) => {
 
 const articles = ref<idArticleLine[]>([])
 const loading = ref<boolean>(true)
+const username = ref<string>("")
 
 const fetchArticles = async () => {
   const data = await getArticles()
@@ -100,15 +106,36 @@ const fetchArticles = async () => {
 }
 
 onMounted(() => {
+  try {
+    username.value = jwtDecode<jwtPayload>(cookies.get('refresh_token')).username
+  } catch (e) {
+    username.value = ''
+  }
   fetchArticles()
 })
+
+const logout = () => {
+  cookies.remove('access_token')
+  cookies.remove('refresh_token')
+  window.location.reload()
+}
 
 </script>
 
 <template>
   <header>
     英才二班典籍
-    <router-link to="login" class="login-button">Sign in</router-link>
+    <div class="login-box">
+      <router-link to="login" class="login-button" v-if="!username">Sign in</router-link>
+      <div v-else>
+        <div>
+          {{ username }}
+        </div>
+        <div class="login-button" @click="logout">
+          Sign out
+        </div>
+      </div>
+    </div>
   </header>
   <Container :page="currentPage" :articles="articles" :loading="loading"/>
   <Pagination :change-page="onPageChange" :current-page="currentPage" :article-num="articles.length" />
@@ -135,16 +162,31 @@ footer {
   margin-top: auto;
 }
 
-.login-button {
+.login-box {
   position: absolute;
   color: #07f5ed;
   right: 8vh;
   text-align: right;
   text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   cursor: pointer;
   transition: color 0.3s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: azure 2px solid;
+  border-radius: 15px;
+  padding: 0.5em;
+  background: azure;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.login-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-button:hover {
