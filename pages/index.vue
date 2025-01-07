@@ -1,19 +1,129 @@
 <script setup lang="ts">
 const articles = useArticleStore()
 
-await articles.fetch()
+const backgrounds = [
+  "https://static.shittim.art/images/4anniversary-pv/10.webp",
+  "https://static.shittim.art/images/4anniversary-pv/11.webp",
+  "https://static.shittim.art/images/4anniversary-pv/12.webp",
+  "https://static.shittim.art/images/4anniversary-pv/13.webp",
+  "https://static.shittim.art/images/4anniversary-pv/14.webp",
+  "https://static.shittim.art/images/4anniversary-pv/15.webp",
+  "https://static.shittim.art/images/4anniversary-pv/16.webp",
+  "https://static.shittim.art/images/4anniversary-pv/17.webp",
+  "https://static.shittim.art/images/4anniversary-pv/18.webp",
+  "https://static.shittim.art/images/4anniversary-pv/19.webp",
+  "https://static.shittim.art/images/4anniversary-pv/2.webp",
+  "https://static.shittim.art/images/4anniversary-pv/20.webp",
+  "https://static.shittim.art/images/4anniversary-pv/21.webp",
+  "https://static.shittim.art/images/4anniversary-pv/22.webp",
+  "https://static.shittim.art/images/4anniversary-pv/23.webp",
+  "https://static.shittim.art/images/4anniversary-pv/24.webp",
+  "https://static.shittim.art/images/4anniversary-pv/25.webp",
+  "https://static.shittim.art/images/4anniversary-pv/26.webp",
+  "https://static.shittim.art/images/4anniversary-pv/27.webp",
+  "https://static.shittim.art/images/4anniversary-pv/28.webp",
+  "https://static.shittim.art/images/4anniversary-pv/29.webp",
+  "https://static.shittim.art/images/4anniversary-pv/3.webp",
+  "https://static.shittim.art/images/4anniversary-pv/30.webp",
+  "https://static.shittim.art/images/4anniversary-pv/31.webp",
+  "https://static.shittim.art/images/4anniversary-pv/32.webp",
+  "https://static.shittim.art/images/4anniversary-pv/34.webp",
+  "https://static.shittim.art/images/4anniversary-pv/35.webp",
+  "https://static.shittim.art/images/4anniversary-pv/36.webp",
+  "https://static.shittim.art/images/4anniversary-pv/37.webp",
+  "https://static.shittim.art/images/4anniversary-pv/38.webp",
+  "https://static.shittim.art/images/4anniversary-pv/39.webp",
+  "https://static.shittim.art/images/4anniversary-pv/4.webp",
+  "https://static.shittim.art/images/4anniversary-pv/40.webp",
+  "https://static.shittim.art/images/4anniversary-pv/41.webp",
+  "https://static.shittim.art/images/4anniversary-pv/42.webp",
+  "https://static.shittim.art/images/4anniversary-pv/43.webp",
+  "https://static.shittim.art/images/4anniversary-pv/44.webp",
+  "https://static.shittim.art/images/4anniversary-pv/45.webp",
+  "https://static.shittim.art/images/4anniversary-pv/46.webp",
+  "https://static.shittim.art/images/4anniversary-pv/47.webp",
+  "https://static.shittim.art/images/4anniversary-pv/49.webp",
+  "https://static.shittim.art/images/4anniversary-pv/5.webp",
+  "https://static.shittim.art/images/4anniversary-pv/50.webp",
+  "https://static.shittim.art/images/4anniversary-pv/51.webp",
+  "https://static.shittim.art/images/4anniversary-pv/53.webp",
+  "https://static.shittim.art/images/4anniversary-pv/54.webp",
+  "https://static.shittim.art/images/4anniversary-pv/55.webp",
+  "https://static.shittim.art/images/4anniversary-pv/56.webp",
+  "https://static.shittim.art/images/4anniversary-pv/57.webp",
+  "https://static.shittim.art/images/4anniversary-pv/58.webp",
+  "https://static.shittim.art/images/4anniversary-pv/59.webp",
+  "https://static.shittim.art/images/4anniversary-pv/6.webp",
+  "https://static.shittim.art/images/4anniversary-pv/60.webp",
+  "https://static.shittim.art/images/4anniversary-pv/61.webp",
+  "https://static.shittim.art/images/4anniversary-pv/62.webp",
+  "https://static.shittim.art/images/4anniversary-pv/63.webp",
+  "https://static.shittim.art/images/4anniversary-pv/64.webp",
+  "https://static.shittim.art/images/4anniversary-pv/65.webp",
+  "https://static.shittim.art/images/4anniversary-pv/66.webp",
+  "https://static.shittim.art/images/4anniversary-pv/7.webp",
+  "https://static.shittim.art/images/4anniversary-pv/8.webp",
+  "https://static.shittim.art/images/4anniversary-pv/9.webp"]
+
+onMounted(() => {
+  setInterval(async () => {
+    const imageUrl = backgrounds[Math.floor(Math.random() * backgrounds.length)]
+
+    const data = await $fetch<Blob>(imageUrl, {
+      method: 'GET',
+      responseType: 'blob',
+    })
+
+    if(data) {
+      const objectUrl = URL.createObjectURL(data)
+      document.getElementById('page-body')!!.style.backgroundImage = `url(${objectUrl})`
+    } else {
+      console.error(data)
+    }
+  }, 5000)
+
+  articles.fetch()
+})
+
 </script>
 
 <template>
-  <Link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
-  <Link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css" />
-  <Title>ZZSZ Classics Web</Title>
-  <div v-if="articles.loading">
-    Loading..
-  </div>
-  <div v-else>
-    <div v-for="article in articles.articles" :key="article.id">
-      {{ article.line }}
-    </div>
-  </div>
+  <Link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"/>
+  <Link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
+  <Title>ZZSZ Classics News</Title>
+  <v-app id="page-body">
+    <v-container>
+      <v-app-bar :elevation="2" rounded>
+        <v-app-bar-title>
+          ZZSZ-YCT 典籍新闻
+        </v-app-bar-title>
+
+        <template v-slot:append>
+          <v-btn prepend-icon="mdi-account">
+            <template v-if="true">
+              Sign in
+            </template>
+            <template v-else>
+              {{ 'Prepared to username' }}
+            </template>
+          </v-btn>
+        </template>
+      </v-app-bar>
+      <v-main>
+        <v-skeleton-loader v-for="article in articles.articles" type="article" :loading="articles.loading" class="my-8 opacity-80 rounded-lg">
+          <article-card :article="article"/>
+        </v-skeleton-loader>
+      </v-main>
+    </v-container>
+  </v-app>
 </template>
+
+<style scoped>
+#page-body {
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("https://static.shittim.art/images/tablet-aos-01.webp");
+}
+</style>
