@@ -124,7 +124,7 @@ const logout = () => {
 
 <template>
   <header>
-    英才二班典籍
+    zzsz-yct news
     <div class="login-box">
       <router-link to="login" class="login-button" v-if="!username">Sign in</router-link>
       <div v-else>
