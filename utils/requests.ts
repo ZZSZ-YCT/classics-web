@@ -13,16 +13,11 @@ export async function fetchArticles() : Promise<Article[] | undefined> {
         }
     }
 
-    return useFetch<Article[]>(url, {
+    return $fetch<Article[]>(url, {
         method: 'GET',
         headers: headers,
-    }).then(({data, error}) => {
-        if(error.value) {
-            console.error(error)
-            return undefined
-        }
-
-        return data.value ?? undefined
+    }).then((data) => {
+        return data ?? undefined
     }).catch(err => {
         console.error(err)
         return undefined
