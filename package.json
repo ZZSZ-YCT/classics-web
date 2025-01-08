@@ -16,6 +16,7 @@
     "markdown-it": "^14.1.0",
     "markdown-it-imsize": "^2.0.1",
     "nuxt": "^3.15.0",
+    "nuxt-obfuscator": "^2.0.1",
     "pinia": "^2.3.0",
     "vue": "latest",
     "vue-router": "latest",
