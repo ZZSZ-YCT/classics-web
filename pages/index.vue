@@ -110,9 +110,13 @@ onMounted(() => {
         </template>
       </v-app-bar>
       <v-main>
-        <v-skeleton-loader v-for="article in articles.articles" type="article" :loading="articles.loading" class="my-8 opacity-80 rounded-lg">
-          <article-card :article="article"/>
-        </v-skeleton-loader>
+        <v-row justify="center">
+          <v-col cols="12" md="8">
+            <v-skeleton-loader v-for="article in articles.articles" type="article" :loading="articles.loading" class="my-8 opacity-80 rounded-xl">
+              <article-card :article="article"/>
+            </v-skeleton-loader>
+          </v-col>
+        </v-row>
       </v-main>
     </v-container>
   </v-app>
@@ -125,5 +129,6 @@ onMounted(() => {
   background-position: center;
   background-repeat: no-repeat;
   background-image: url("https://static.shittim.art/images/tablet-aos-01.webp");
+  transition: background 0.7s ease;
 }
 </style>

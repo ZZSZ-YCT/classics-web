@@ -4,36 +4,37 @@ import type {Article} from "~/types/Article";
 const props = defineProps<{
   article: Article
 }>()
+
+const visible = ref(props.article.sensitive)
 </script>
 
 <template>
-  <v-card class="w-100">
-    <v-card-title class="title-ellipsis">
-      {{article.line}}
+  <v-card class="w-100 rounded-xl">
+    <v-overlay v-model="visible" contained class="align-center justify-center" style="backdrop-filter: blur(4px);">
+      <span>本条目包含敏感信息</span>
+      <v-btn @click="visible = false" color="primary" class="mx-8">显示</v-btn>
+    </v-overlay>
+
+    <v-card-title>
+      <div class="text-overline">
+        <v-row>
+          <v-col>
+            Author: {{ article.contrib }}
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col>
+            Time: {{ article.time }}
+          </v-col>
+        </v-row>
+      </div>
     </v-card-title>
-    <v-card-subtitle v-if="article.unsure" class="text-deep-orange-accent-3">
-      本条目包含了未经确定的信息
+    <v-card-subtitle class="text-deep-orange-accent-3">
+      <span v-if="article.unsure">
+        本条目包含了未经确定的信息
+      </span>
     </v-card-subtitle>
     <v-card-text>
-      <v-row>
-        <v-col>
-          Author: {{ article.contrib }}
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col>
-          Time: {{ article.time }}
-        </v-col>
-      </v-row>
+      {{ article.line }}
     </v-card-text>
   </v-card>
 </template>
-
-<style scoped>
-.title-ellipsis {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>
