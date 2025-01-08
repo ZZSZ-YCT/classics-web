@@ -33,8 +33,6 @@ const visible = ref(props.article.sensitive)
         本条目包含了未经确定的信息
       </span>
     </v-card-subtitle>
-    <v-card-text>
-      {{ article.line }}
-    </v-card-text>
+    <v-card-text v-html="md_render(article.line)"></v-card-text>
   </v-card>
 </template>
