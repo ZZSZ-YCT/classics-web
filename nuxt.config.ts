@@ -23,5 +23,12 @@ export default defineNuxtConfig({
     vuetifyOptions: {
       blueprint: md3
     }
+  },
+  sourcemap: {
+    client: true,
+    server: true,
+  },
+  build: {
+
   }
 })
