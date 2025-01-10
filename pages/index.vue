@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const articles = useArticleStore()
+const user = useUserStore()
 
 const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/10.webp",
@@ -65,7 +66,7 @@ const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/8.webp",
   "https://static.shittim.art/images/4anniversary-pv/9.webp"]
 
-onMounted(() => {
+onMounted(async () => {
   setInterval(async () => {
     const imageUrl = backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
@@ -74,7 +75,7 @@ onMounted(() => {
       responseType: 'blob',
     })
 
-    if(data) {
+    if (data) {
       const objectUrl = URL.createObjectURL(data)
       document.getElementById('page-body')!!.style.backgroundImage = `url(${objectUrl})`
     } else {
@@ -82,8 +83,20 @@ onMounted(() => {
     }
   }, 5000)
 
-  articles.fetch()
+  await articles.fetch()
+  await user.initialize()
+
+  for (let i = 0; i < articles.articles.length; i++) {
+    active.value[i] = false
+  }
+
+  for(let i = 0; i < Math.min(articles.articles.length, 10); i++) {
+    active.value[i] = true
+  }
 })
+
+const active = ref([] as boolean[])
+const menuOpen = ref(false)
 
 </script>
 
@@ -97,24 +110,81 @@ onMounted(() => {
         <v-app-bar-title>
           ZZSZ-YCT 典籍新闻
         </v-app-bar-title>
-
         <template v-slot:append>
-          <v-btn prepend-icon="mdi-account">
-            <template v-if="true">
-              Sign in
-            </template>
-            <template v-else>
-              {{ 'Prepared to username' }}
-            </template>
-          </v-btn>
+          <template v-if="user.isLoggedIn">
+            <v-menu
+                v-model="menuOpen"
+                :close-on-content-click="false"
+                location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                    prepend-icon="mdi-account"
+                    v-bind="props"
+                >
+                  {{ user.username }}
+                </v-btn>
+              </template>
+
+              <v-card min-width="300">
+                <v-list>
+                  <v-list-item
+                      prepend-icon="mdi-emoticon-kiss-outline"
+                      :title="user.username"
+                  >
+                    <template v-slot:append>
+                      <v-tooltip text="Not developed">
+                        <template v-slot:activator="{ props }">
+                          <v-btn icon="mdi-cog" v-bind="props" variant="plain"></v-btn>
+                        </template>
+                      </v-tooltip>
+                    </template>
+                  </v-list-item>
+                </v-list>
+
+                <v-divider></v-divider>
+
+                <v-list>
+
+                </v-list>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn
+                      color="primary"
+                      variant="text"
+                      @click="menuOpen = false; user.logout()"
+                  >
+                    Sign out
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+          </template>
+          <template v-else>
+            <nuxt-link to="/login" class="text-black">
+              <v-btn prepend-icon="mdi-account">
+                Sign in
+              </v-btn>
+            </nuxt-link>
+          </template>
         </template>
       </v-app-bar>
+
       <v-main>
-        <v-row justify="center">
-          <v-col cols="12" md="8">
-            <v-skeleton-loader v-for="article in articles.articles" type="article" :loading="articles.loading" class="my-8 opacity-80 rounded-xl">
-              <article-card :article="article"/>
-            </v-skeleton-loader>
+        <v-row justify="center" class="fill-height">
+          <v-col cols="12" md="8" v-for="(article, index) in articles.articles">
+            <v-lazy
+                v-model="active[index]"
+                :options="{'threshold':0.5}"
+                transition="fade-transition"
+                class="fill-height"
+            >
+              <v-skeleton-loader type="article" :loading="articles.loading"
+                                 class="my-4 opacity-80 rounded-xl">
+                <article-card :article="article"/>
+              </v-skeleton-loader>
+            </v-lazy>
           </v-col>
         </v-row>
       </v-main>
