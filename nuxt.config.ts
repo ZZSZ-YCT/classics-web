@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiUrl: 'https://classics-api.shittim.art/'
+      apiUrl: process.env.VITE_API_URL || 'https://classics-api.shittim.art/'
     },
   },
   vuetify: {
