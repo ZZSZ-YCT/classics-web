@@ -1,28 +1,33 @@
-FROM oven/bun:latest AS builder
-WORKDIR /app
-
-# 1. 先只拷贝锁文件和元数据，安装所有依赖（包括老版本 esbuild）
-COPY package.json bun.lockb ./
-RUN bun install
-
-# 2. 用 bun 在容器里把 esbuild 升级到跟 bun 自带服务相同的版本
-RUN bun add esbuild@0.25.2 --save-dev
-
-# 3. 拷贝项目源码并构建
-COPY . .
-RUN bun run build
+# ----------------------------
+# Stage 1: Install & Build (using Node.js)
+# ----------------------------
+    FROM node:18-alpine AS builder
+    WORKDIR /app
+    
+    # 拷贝 package 文件并安装依赖
+    COPY package*.json ./
+    RUN npm ci
+    
+    # 拷贝源码并执行构建
+    COPY . .
+    RUN npm run build
     
     # ----------------------------
-    # 第二阶段：运行时镜像
+    # Stage 2: Runtime (using Bun)
     # ----------------------------
-FROM oven/bun:latest AS runner
+    FROM oven/bun:latest AS runner
+    WORKDIR /app
     
-WORKDIR /app
-COPY --from=builder /app/.output ./
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/bun.lockb ./
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
-EXPOSE 3000
-CMD ["bun", "run", "preview", "--", "--hostname", "0.0.0.0", "--port", "3000"]
+    # 拷贝构建产物和依赖
+    COPY --from=builder /app/.output ./.output
+    COPY --from=builder /app/node_modules ./node_modules
+    COPY --from=builder /app/package*.json ./
+    
+    # ENV 让 Nuxt 监听 0.0.0.0:3000
+    ENV NUXT_HOST=0.0.0.0
+    ENV NUXT_PORT=3000
+    EXPOSE 3000
+    
+    # 直接用 Bun 运行编译后的服务器入口
+    CMD ["bun", ".output/server/index.mjs"]
     

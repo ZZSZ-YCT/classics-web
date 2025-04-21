@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: classics-web:v1.0.0
+    container_name: classics-web
     environment:
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3000
