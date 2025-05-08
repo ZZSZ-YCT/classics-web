@@ -3,7 +3,7 @@ import {jwtDecode} from "jwt-decode";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
-        isLoggedIn: true,
+        isLoggedIn: false,
         username: "username"
     }),
     actions: {
