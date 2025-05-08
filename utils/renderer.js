@@ -4,7 +4,10 @@ import MarkdownIt from 'markdown-it'
 import MarkdownItKatex from '@vscode/markdown-it-katex'
 import MarkdownItImSize from 'markdown-it-imsize/dist/markdown-it-imsize.js'
 
-const md = new MarkdownIt()
+const md = new MarkdownIt({
+    html: true,
+    breaks: true,
+})
     .use(MarkdownItKatex)
     .use(MarkdownItImSize)
 
