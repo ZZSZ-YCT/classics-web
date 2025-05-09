@@ -65,6 +65,7 @@ const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/8.webp",
   "https://static.shittim.art/images/4anniversary-pv/9.webp"]
 onMounted(async () => {
+  await user.initialize()
   setInterval(async () => {
     const imageUrl = backgrounds[Math.floor(Math.random() * backgrounds.length)]
     const data = await $fetch<Blob>(imageUrl, {
@@ -84,68 +85,68 @@ const menuOpen = ref(false)
 <template>
   <v-app id="page-body">
     <v-container>
-    <v-app-bar :elevation="2" rounded>
-      <v-app-bar-title>
-        ZZSZ-YCT 典籍新闻
-      </v-app-bar-title>
-      <template v-slot:append>
-        <template v-if="user.isLoggedIn">
-          <v-menu
-              v-model="menuOpen"
-              :close-on-content-click="false"
-              location="bottom">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                  prepend-icon="mdi-account"
-                  v-bind="props"
-              >
-                {{ user.username }}
-              </v-btn>
-            </template>
-
-            <v-card min-width="300">
-              <v-list>
-                <v-list-item
-                    :title="user.username"
-                    prepend-icon="mdi-emoticon-kiss-outline"
-                >
-                  <template v-slot:append>
-                    <v-tooltip text="Not developed">
-                      <template v-slot:activator="{ props }">
-                        <v-btn icon="mdi-cog" v-bind="props" variant="plain"></v-btn>
-                      </template>
-                    </v-tooltip>
-                  </template>
-                </v-list-item>
-              </v-list>
-              <v-divider></v-divider>
-              <!-- <v-list></v-list>-->
-              <v-card-actions>
-                <v-spacer></v-spacer>
+      <v-app-bar :elevation="2" rounded>
+        <v-app-bar-title>
+          ZZSZ-YCT 典籍新闻
+        </v-app-bar-title>
+        <template v-slot:append>
+          <template v-if="user.isLoggedIn">
+            <v-menu
+                v-model="menuOpen"
+                :close-on-content-click="false"
+                location="bottom">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                    color="primary"
-                    variant="text"
-                    @click="menuOpen = false; user.logout()"
+                    prepend-icon="mdi-account"
+                    v-bind="props"
                 >
-                  Sign out
+                  {{ user.username }}
                 </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
+              </template>
+
+              <v-card min-width="300">
+                <v-list>
+                  <v-list-item
+                      :title="user.username"
+                      prepend-icon="mdi-emoticon-kiss-outline"
+                  >
+                    <template v-slot:append>
+                      <v-tooltip text="Not developed">
+                        <template v-slot:activator="{ props }">
+                          <v-btn icon="mdi-cog" v-bind="props" variant="plain"></v-btn>
+                        </template>
+                      </v-tooltip>
+                    </template>
+                  </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <!-- <v-list></v-list>-->
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      color="primary"
+                      variant="text"
+                      @click="menuOpen = false; user.logout()"
+                  >
+                    Sign out
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+          </template>
+          <template v-else>
+            <nuxt-link class="text-black" to="/login">
+              <v-btn prepend-icon="mdi-account">
+                Sign in
+              </v-btn>
+            </nuxt-link>
+          </template>
         </template>
-        <template v-else>
-          <nuxt-link class="text-black" to="/login">
-            <v-btn prepend-icon="mdi-account">
-              Sign in
-            </v-btn>
-          </nuxt-link>
-        </template>
-      </template>
-    </v-app-bar>
-    <v-main>
-      <NuxtPage/>
-    </v-main>
-      </v-container>
+      </v-app-bar>
+      <v-main>
+        <NuxtPage/>
+      </v-main>
+    </v-container>
   </v-app>
 </template>
 <style scoped>

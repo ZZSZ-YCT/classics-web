@@ -1,14 +1,10 @@
 <script lang="ts" setup>
 const articles = useArticleStore()
-const user = useUserStore()
-
 onMounted(async () => {
   await articles.fetch()
-  await user.initialize()
   for (let i = 0; i < articles.articles.length; i++) {
     active.value[i] = false
   }
-
   for (let i = 0; i < Math.min(articles.articles.length, 10); i++) {
     active.value[i] = true
   }

@@ -1,4 +1,6 @@
-export type jwtPayload = {
-    username: string,
-    perm: bigint
+// types/Authorization.ts
+export interface jwtPayload {
+    username: string
+    exp:      number
+    iat:      number
 }
