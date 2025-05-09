@@ -1,0 +1,20 @@
+/* 让页面在内容溢出时出现滚动条，内容刚好时不出现 */
+html, body {
+    overflow-y: auto;       /* 核心：超出时滚动，刚好时不滚动 */
+    scrollbar-width: auto;  /* Firefox：默认情况下，必要时显示 */
+    -ms-overflow-style: auto; /* IE10+：同上 */
+}
+
+/* WebKit 内核浏览器（Chrome/Safari/Edge）滚动条宽度微调 */
+body::-webkit-scrollbar {
+    width: 8px;    /* 你也可以改成你想要的数字 */
+}
+
+/* 可选：滚动条轨道和滑块样式 */
+body::-webkit-scrollbar-track {
+    background: transparent;
+}
+body::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.3);
+}
