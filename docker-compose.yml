@@ -6,10 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: classics-web
-    environment:
-      - NUXT_HOST=0.0.0.0
-      - NUXT_PORT=3000
-      - VITE_API_URL=https://classics-api.zzszyct.xyz/
+    env_file:
+      - .env
     ports:
       - "25531:3000"
     restart: unless-stopped
