@@ -69,9 +69,10 @@ const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/8.webp",
   "https://static.shittim.art/images/4anniversary-pv/9.webp"
 ]
-
+const articles = useArticleStore()
 onMounted(async () => {
   // 初始化用户状态
+  await articles.fetch()
   await user.initialize()
 
   // 每 5s 切换背景
