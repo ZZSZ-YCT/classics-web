@@ -4,11 +4,9 @@ import { ref, onMounted } from 'vue'
 
 const articles = useArticleStore()
 const active = ref<boolean[]>([])
-
+/*await articles.fetch()*/
 onMounted(async () => {
   // 拉取文章列表
-  await articles.fetch()
-
   // 前 10 条默认激活展示，其余延迟加载
   active.value = articles.articles.map((_, i) => i < 10)
 })
