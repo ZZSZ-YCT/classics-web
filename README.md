@@ -1,10 +1,18 @@
-# Nuxt Minimal Starter
+# Classics News Web Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This project is a Nuxt 3 application that displays articles from the ZZSZ‑YCT "Classics" database. It uses Vuetify for UI components and Pinia for state management. Articles are written in Markdown and rendered with KaTeX support for mathematical notation.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+- Dynamic background images pulled from the internet
+- Article list with lazy loading and detail pages
+- Markdown rendering with image sizing and KaTeX
+- Simple login menu powered by cookies
+- Custom 404 page
+
+## Getting Started
+
+Install dependencies using your favourite package manager:
 
 ```bash
 # npm
@@ -20,9 +28,7 @@ yarn install
 bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+To start a development server on `http://localhost:3000` run:
 
 ```bash
 # npm
@@ -38,38 +44,37 @@ yarn dev
 bun run dev
 ```
 
-## Production
+### Production
 
-Build the application for production:
+Build and preview the production bundle:
 
 ```bash
 # npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
 
 # pnpm
+pnpm build
 pnpm preview
 
 # yarn
+yarn build
 yarn preview
 
 # bun
+bun run build
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+The application expects a backend API defined in `nuxt.config.ts` via `runtimeConfig.public.apiUrl`. The default value points to `https://classics-api.shittim.art/`.
+
+## Project Structure
+
+- `components/` – reusable Vue components
+- `pages/` – Nuxt route components
+- `stores/` – Pinia stores for articles and user state
+- `utils/` – helper functions including the Markdown renderer
+
+## License
+
+This project is licensed under the terms of the GNU General Public License v3.
