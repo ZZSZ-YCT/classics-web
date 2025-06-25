@@ -7,7 +7,7 @@ This project is a Nuxt 3 application that displays articles from the ZZSZ‑YCT 
 - Dynamic background images pulled from the internet
 - Article list with lazy loading and detail pages
 - Markdown rendering with image sizing and KaTeX
-- Simple login menu powered by cookies
+- Login via Casdoor with cookie-based tokens
 - Custom 404 page
 
 ## Getting Started
