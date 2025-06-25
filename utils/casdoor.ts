@@ -1,4 +1,4 @@
-import {SDK} from 'casdoor-js-sdk'
+import CasdoorSDK from 'casdoor-js-sdk'
 
 export const certificate = `-----BEGIN CERTIFICATE-----
 MIIE2TCCAsGgAwIBAgIDAeJAMA0GCSqGSIb3DQEBCwUAMCYxDjAMBgNVBAoTBWFk
@@ -29,7 +29,7 @@ xBV5BvEJqTM9ZGJBhyJOMmEOmHXmS9Q5SiPtl3kbSQ9KYCLaHczooNvGn+QYubnt
 Z6Wq065aguY+cQlk54cbZkE1sfu4vuDPtzlAW8F4Es5mXEQFdpZGKbKMtYWQ
 -----END CERTIFICATE-----`
 
-const sdk = new SDK({
+const sdk = new CasdoorSDK({
     serverUrl: 'https://user.zzszyct.xyz',
     clientId: 'yctClassics',
     appName: 'yctClassics',
