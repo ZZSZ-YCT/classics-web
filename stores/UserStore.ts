@@ -1,10 +1,11 @@
 import type {jwtPayload} from "~/types/Authorization";
 import {jwtDecode} from "jwt-decode";
+import {refreshToken} from "~/utils/authorization";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
-        isLoggedIn: true,
-        username: "username"
+        isLoggedIn: false,
+        username: ''
     }),
     actions: {
         logout() {
@@ -25,11 +26,10 @@ export const useUserStore = defineStore('userStore', {
             }
 
             if(refreshTokenCookie.value) {
-                this.username = jwtDecode<jwtPayload>(refreshTokenCookie.value).username
+                const payload = jwtDecode<jwtPayload>(refreshTokenCookie.value)
+                this.username = payload.name ?? payload.username
                 this.isLoggedIn = true
-                if(!accessTokenCookie.value) {
-                    refreshToken()
-                }
+                await refreshToken()
             }
         }
     }

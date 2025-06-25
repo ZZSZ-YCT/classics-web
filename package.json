@@ -17,6 +17,8 @@
     "markdown-it": "^14.1.0",
     "markdown-it-imsize": "^2.0.1",
     "nuxt": "3.16.0",
+    "casdoor-js-sdk": "^0.16.0",
+    "jose": "^6.0.11",
     "pinia": "^2.3.0",
     "vue": "latest",
     "vue-router": "latest",

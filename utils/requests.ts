@@ -1,4 +1,5 @@
 import type {Article} from "~/types/Article";
+import { refreshToken } from '~/utils/authorization'
 
 export async function fetchArticles() : Promise<Article[] | undefined> {
     refreshToken()
