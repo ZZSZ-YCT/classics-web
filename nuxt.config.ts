@@ -15,8 +15,11 @@ export default defineNuxtConfig({
     }
   },
   runtimeConfig: {
+    turnstileSecretKey: process.env.TURNSTILE_SECRET_KEY,
+    classicsJwt: process.env.CLASSICS_API_JWT,
     public: {
-      apiUrl: 'https://classics-api.shittim.art/'
+      apiUrl: 'https://classics-api.shittim.art/',
+      turnstileSiteKey: process.env.TURNSTILE_SITE_KEY,
     },
   },
   vuetify: {

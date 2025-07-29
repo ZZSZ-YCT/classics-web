@@ -1,9 +1,14 @@
 <!-- app.vue -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from '#app'          // Nuxt 3 composable
 
 const user = useUserStore()
 const menuOpen = ref(false)
+const route = useRoute()
+
+/** “贡献条目”按钮仅在当前路径不是 /commit 时显示 */
+const showCommitButton = computed(() => route.path !== '/commit')
 
 const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/10.webp",
@@ -69,13 +74,12 @@ const backgrounds = [
   "https://static.shittim.art/images/4anniversary-pv/8.webp",
   "https://static.shittim.art/images/4anniversary-pv/9.webp"
 ]
+
 const articles = useArticleStore()
 onMounted(async () => {
-  // 初始化用户状态
   await articles.fetch()
   await user.initialize()
 
-  // 每 5s 切换背景
   setInterval(async () => {
     const imageUrl = backgrounds[Math.floor(Math.random() * backgrounds.length)]
     try {
@@ -108,6 +112,14 @@ onMounted(async () => {
       <v-app-bar-title>ZZSZ-YCT 典籍新闻</v-app-bar-title>
 
       <template v-slot:append>
+        <!-- “贡献条目”按钮 -->
+        <template v-if="showCommitButton">
+          <nuxt-link to="/commit" class="text-black">
+            <v-btn prepend-icon="mdi-pencil-plus">贡献条目</v-btn>
+          </nuxt-link>
+        </template>
+
+        <!-- 登录状态 -->
         <template v-if="user.isLoggedIn">
           <v-menu v-model="menuOpen" :close-on-content-click="false" location="bottom">
             <template v-slot:activator="{ props }">
