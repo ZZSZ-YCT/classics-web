@@ -4,6 +4,14 @@ import { md3 } from 'vuetify/blueprints'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  css: [
+    '@mdi/font/css/materialdesignicons.css'
+  ],
+  vite: {
+    optimizeDeps: {
+      include: ['@mdi/font/css/materialdesignicons.css']
+    }
+  },
   modules: ['vuetify-nuxt-module', '@pinia/nuxt'],
   app: {
     head: {
