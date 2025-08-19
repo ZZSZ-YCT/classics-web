@@ -161,7 +161,7 @@ async function sendData(cfToken: string) {
 }
 
 /* ——— 其它 UI ——— */
-const md_render = (s: string) => s.replace(/\n/g, '<br>');
+import { md_render } from '~/utils/renderer.js';
 const { mobile, height } = useDisplay();
 const availableHeight = computed(() => height.value - 100);
 </script>
@@ -219,7 +219,7 @@ const availableHeight = computed(() => height.value - 100);
     </NuxtLink>
     <v-row justify="center" no-gutters class="fill-height">
       <v-col cols="12" sm="11" md="10" lg="8" xl="6" class="d-flex flex-column">
-        <!-- 表单 -->
+        <!-- 基本信息表单 -->
         <v-card class="rounded-xl mb-3 flex-shrink-0" elevation="2">
           <v-card-title class="pa-4 pb-2">
             <v-icon left color="primary" :size="mobile ? 'default' : 'large'">mdi-plus-circle</v-icon>
@@ -237,7 +237,7 @@ const availableHeight = computed(() => height.value - 100);
                       required
                       outlined
                       dense
-                      hide-details="auto"
+                      hide-details
                       :rules="[v => !!v || '请输入作者姓名']"
                   >
                     <template #prepend-inner>
@@ -252,7 +252,7 @@ const availableHeight = computed(() => height.value - 100);
                       required
                       outlined
                       dense
-                      hide-details="auto"
+                      hide-details
                       placeholder="例: 2024-08-26"
                       :rules="[v => !!v || '请输入时间']"
                   >
@@ -263,22 +263,25 @@ const availableHeight = computed(() => height.value - 100);
                 </v-col>
               </v-row>
 
-              <!-- 条目内容 -->
-              <v-textarea
-                  v-model="formData.line"
-                  label="条目内容"
-                  required
-                  outlined
-                  hide-details="auto"
-                  :rows="mobile ? 3 : 4"
-                  :max-rows="mobile ? 5 : 6"
-                  class="mb-3"
-                  :rules="[v => !!v || '请输入条目内容']"
-              >
-                <template #prepend-inner>
-                  <v-icon color="grey" size="small">mdi-text</v-icon>
-                </template>
-              </v-textarea>
+              <!-- Markdown 编辑器 -->
+              <v-card outlined class="mb-3">
+                <v-card-title class="pa-3 pb-1">
+                  <span class="text-subtitle1">条目内容</span>
+                </v-card-title>
+                
+                <v-card-text class="pa-3 pt-1">
+                  <MarkdownEditor
+                      v-model="formData.line"
+                      label=""
+                      placeholder="支持 Markdown 格式，如 **粗体** *斜体* `代码` [链接](URL)"
+                      required
+                      :rows="mobile ? 6 : 8"
+                      :max-rows="mobile ? 10 : 12"
+                      :rules="[v => !!v || '请输入条目内容']"
+                      hide-details
+                  />
+                </v-card-text>
+              </v-card>
 
               <!-- 复选框 -->
               <v-row dense>
@@ -315,12 +318,12 @@ const availableHeight = computed(() => height.value - 100);
           </v-card-text>
         </v-card>
 
-        <!-- 预览 -->
+        <!-- 完整预览 -->
         <div class="flex-grow-1 d-flex flex-column min-height-0">
           <div class="d-flex align-center mb-2">
             <span :class="['preview-title', mobile ? 'text-subtitle1' : 'text-h6']">
               <v-icon color="primary" size="small" class="mr-2">mdi-eye</v-icon>
-              预览效果
+              最终预览效果
             </span>
             <v-spacer />
           </div>
@@ -398,11 +401,11 @@ const availableHeight = computed(() => height.value - 100);
   margin-top: 64px;
 }
 
-/* —— “回到首页” 按钮 —— */
+/* —— "回到首页" 按钮 —— */
 .home-link {
   position: absolute;   /* 新增：绝对定位 */
   top: 16px;            /* 距离容器顶部 16px */
-  left: 16px;           /* 距离容器左侧 16px */
+  right: 16px;          /* 距离容器右侧 16px */
   text-decoration: none;
   z-index: 1000;        /* 保证在最上层 */
 }
@@ -480,6 +483,40 @@ const availableHeight = computed(() => height.value - 100);
   display: block;
   margin: 8px auto;
   border-radius: 4px;
+}
+
+/* ——— markdown 表格样式修正 ——— */
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.markdown-body table th {
+  font-weight: bold !important;
+  color: #000 !important;
+  background-color: #f6f8fa;
+  padding: 8px 12px;
+  border: 1px solid #d0d7de;
+  text-align: left;
+}
+
+.markdown-body table td {
+  padding: 8px 12px;
+  border: 1px solid #d0d7de;
+}
+
+.markdown-body table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 修正空行渲染问题 */
+.markdown-body table tr:empty {
+  display: none;
+}
+
+.markdown-body table td:empty::after {
+  content: '\00a0';
 }
 
 /* ——— 提交按钮效果 ——— */

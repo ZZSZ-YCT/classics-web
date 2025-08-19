@@ -12,5 +12,23 @@ const md = new MarkdownIt({
     .use(MarkdownItImSize)
 
 export function md_render(text) {
-    return md.render(text)
+    let html = md.render(text)
+    
+    // 修正表格空行问题
+    html = html.replace(/<tr>\s*<\/tr>/g, '')
+    html = html.replace(/<tr>\s*(<td[^>]*>\s*<\/td>\s*)+<\/tr>/g, (match) => {
+        // 检查是否所有的 td 都是空的
+        const tdPattern = /<td[^>]*>([^<]*)<\/td>/g
+        let hasContent = false
+        let tdMatch
+        while ((tdMatch = tdPattern.exec(match)) !== null) {
+            if (tdMatch[1].trim() !== '') {
+                hasContent = true
+                break
+            }
+        }
+        return hasContent ? match : ''
+    })
+    
+    return html
 }
