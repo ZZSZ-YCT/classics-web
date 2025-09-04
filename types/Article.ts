@@ -5,4 +5,5 @@ export type Article = {
     contributor: string,
     unsure: boolean,
     sensitive: boolean,
+    attributes: Map<string, string>,
 }
