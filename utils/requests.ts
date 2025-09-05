@@ -3,7 +3,7 @@ import type {Article} from "~/types/Article";
 export async function fetchArticles() : Promise<Article[] | undefined> {
     refreshToken()
 
-    const url = useRuntimeConfig().public.apiUrl + 'read/json'
+    const url = useRuntimeConfig().public.apiUrl + '/article'
     const accessToken = useCookie('access_token').value
 
     let headers = {}
