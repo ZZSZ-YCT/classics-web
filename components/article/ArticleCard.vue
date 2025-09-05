@@ -62,7 +62,7 @@ const handleShowContent = () => {
     <v-card-title>
       <div class="text-overline">
         <v-row>
-          <v-col>Author: {{ article.contrib }}</v-col>
+          <v-col>Author: {{ article.contributor }}</v-col>
           <v-spacer></v-spacer>
           <v-col>Time: {{ article.time }}</v-col>
         </v-row>
