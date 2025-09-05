@@ -2,8 +2,8 @@ export type Article = {
     id: string,
     line: string,
     time: string,
-    contrib: string,
+    contributor: string,
     unsure: boolean,
     sensitive: boolean,
-    hidden: boolean,
+    attributes: Map<string, string>,
 }
